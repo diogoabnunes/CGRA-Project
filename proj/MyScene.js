@@ -31,11 +31,13 @@ class MyScene extends CGFscene {
         
         this.objects = [
             new MySphere(this, 16, 8),
-            new MyCilinder(this, 16)
+            new MyCilinder(this, 16),
+            new MyCubeMap(this)
         ];
         this.objectList = {
             'Sphere': 0,
-            'Cilinder': 1
+            'Cilinder': 1,
+            'CubeMap': 2
         };
         this.selectedObject = 0;
 
@@ -51,13 +53,13 @@ class MyScene extends CGFscene {
         this.selectedTexture = -1;
 
         // Material
-        this.material = new CGFappearance(this);
-        this.material.setAmbient(0.1, 0.1, 0.1, 1);
-        this.material.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.material.setSpecular(0.1, 0.1, 0.1, 1);
-        this.material.setShininess(10.0);
-        this.material.setTexture(this.textures[0]);
-        this.material.setTextureWrap('REPEAT','REPEAT');
+        this.earth = new CGFappearance(this);
+        this.earth.setAmbient(0.1, 0.1, 0.1, 1);
+        this.earth.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.earth.setSpecular(0.1, 0.1, 0.1, 1);
+        this.earth.setShininess(10.0);
+        this.earth.setTexture(this.textures[0]);
+        this.earth.setTextureWrap('REPEAT','REPEAT');
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -112,7 +114,7 @@ class MyScene extends CGFscene {
 
         // ---- BEGIN Primitive drawing section
 
-        if (this.displayTextures) this.material.apply();
+        if (this.selectedObject == 0 || this.selectedObject == 1) this.earth.apply();
         
         this.objects[this.selectedObject].display();
 
