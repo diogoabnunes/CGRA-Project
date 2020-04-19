@@ -23,6 +23,15 @@ class MySphere extends CGFobject {
     this.normals = [];
     this.texCoords = [];
 
+    this.texture = new CGFtexture(this.scene, 'images/earth.jpg');
+    this.earth = new CGFappearance(this.scene);
+    this.earth.setAmbient(0.1, 0.1, 0.1, 1);
+    this.earth.setDiffuse(0.9, 0.9, 0.9, 1);
+    this.earth.setSpecular(0.1, 0.1, 0.1, 1);
+    this.earth.setShininess(10.0);
+    this.earth.setTexture(this.texture);
+    this.earth.setTextureWrap('REPEAT', 'REPEAT');
+
     var phi = 0;
     var theta = 0;
     var texturaLatitude = 0;
@@ -81,5 +90,10 @@ class MySphere extends CGFobject {
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
+  }
+
+  display() {
+    this.earth.apply();
+    super.display();
   }
 }

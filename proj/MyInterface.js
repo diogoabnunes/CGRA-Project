@@ -21,10 +21,8 @@ class MyInterface extends CGFinterface {
 
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
         this.gui.add(this.scene, 'displayNormals').name('Display Normals');
-        this.gui.add(this.scene, 'displayTextures').name('Display Textures');
 
         this.gui.add(this.scene, 'selectedObject', this.scene.objectList).name('Object');
-        this.gui.add(this.scene, 'selectedTexture', this.scene.textureList).name('Texture');
 
         return true;
     }

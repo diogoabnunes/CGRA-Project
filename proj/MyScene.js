@@ -13,6 +13,7 @@ class MyScene extends CGFscene {
         super.init(application);
         this.initCameras();
         this.initLights();
+        this.initCubeMap();
 
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -31,35 +32,13 @@ class MyScene extends CGFscene {
         
         this.objects = [
             new MySphere(this, 16, 8),
-            new MyCilinder(this, 16),
-            new MyCubeMap(this)
+            new MyCilinder(this, 16)
         ];
         this.objectList = {
             'Sphere': 0,
-            'Cilinder': 1,
-            'CubeMap': 2
+            'Cilinder': 1
         };
         this.selectedObject = 0;
-
-        // Texturas
-        this.textures=[
-            new CGFtexture(this, 'images/earth.jpg'),
-            new CGFtexture(this, 'images/cubemap.png')
-        ];
-        this.textureList= {
-            'Earth': 0,
-            'CubeMap': 1
-        };
-        this.selectedTexture = -1;
-
-        // Material
-        this.earth = new CGFappearance(this);
-        this.earth.setAmbient(0.1, 0.1, 0.1, 1);
-        this.earth.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.earth.setSpecular(0.1, 0.1, 0.1, 1);
-        this.earth.setShininess(10.0);
-        this.earth.setTexture(this.textures[0]);
-        this.earth.setTextureWrap('REPEAT','REPEAT');
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -74,6 +53,16 @@ class MyScene extends CGFscene {
     }
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    }
+    initCubeMap() {
+        this.cubeMaps= [
+            'images/cubemap.png'
+        ];
+        this.cubeMapsList = {
+            'CubeMap': 0
+        };
+        this.selectedCubeMap = 0;
+        this.cubeMap = new MyCubeMap(this, new CGFtexture(this, this.cubeMaps[this.selectedCubeMap]));
     }
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
@@ -105,6 +94,7 @@ class MyScene extends CGFscene {
         this.multMatrix(sca);
         
         // Draw axis
+        this.cubeMap.display();
         if (this.displayAxis) this.axis.display();
 
         if (this.displayNormals) this.objects[this.selectedObject].enableNormalViz();
@@ -113,8 +103,6 @@ class MyScene extends CGFscene {
         this.setDefaultAppearance();
 
         // ---- BEGIN Primitive drawing section
-
-        if (this.selectedObject == 0 || this.selectedObject == 1) this.earth.apply();
         
         this.objects[this.selectedObject].display();
 
