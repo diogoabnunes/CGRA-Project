@@ -16,13 +16,12 @@ class MyCilinder extends CGFobject {
     this.normals = [];
     this.texCoords = [];
 
-    // TODO
     var angulo = 0;
     var textura = 0;
     var delta = 2 * Math.PI / this.slices; // if 6 slices -> delta = 60
     var deltaTextura = 1 / this.slices;
 
-    for (var i = 0; i <= this.slices; i++) {
+    for (let i = 0; i <= this.slices; i++) {
         
         var x = Math.cos(angulo);
         var z = Math.sin(angulo);

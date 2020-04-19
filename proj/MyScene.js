@@ -5,6 +5,9 @@
 class MyScene extends CGFscene {
     constructor() {
         super();
+        this.texture = null;
+        this.appearance = null;
+        this.scaleFactor = 1;
     }
     init(application) {
         super.init(application);
@@ -34,11 +37,32 @@ class MyScene extends CGFscene {
             'Sphere': 0,
             'Cilinder': 1
         };
-        this.selectedObject = 1; 
+        this.selectedObject = 0;
+
+        // Texturas
+        this.textures=[
+            new CGFtexture(this, 'images/earth.jpg'),
+            new CGFtexture(this, 'images/cubemap.png')
+        ];
+        this.textureList= {
+            'Earth': 0,
+            'CubeMap': 1
+        };
+        this.selectedTexture = -1;
+
+        // Material
+        this.material = new CGFappearance(this);
+        this.material.setAmbient(0.1, 0.1, 0.1, 1);
+        this.material.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.material.setSpecular(0.1, 0.1, 0.1, 1);
+        this.material.setShininess(10.0);
+        this.material.setTexture(this.textures[0]);
+        this.material.setTextureWrap('REPEAT','REPEAT');
 
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.displayNormals = false;
+        this.displayTextures = false;
     }
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
@@ -70,6 +94,13 @@ class MyScene extends CGFscene {
         this.loadIdentity();
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
+
+        var sca = [this.scaleFactor, 0.0, 0.0, 0.0,
+            0.0, this.scaleFactor, 0.0, 0.0,
+            0.0, 0.0, this.scaleFactor, 0.0,
+            0.0, 0.0, 0.0, 1.0];
+
+        this.multMatrix(sca);
         
         // Draw axis
         if (this.displayAxis) this.axis.display();
@@ -81,7 +112,8 @@ class MyScene extends CGFscene {
 
         // ---- BEGIN Primitive drawing section
 
-        //This sphere does not have defined texture coordinates
+        if (this.displayTextures) this.material.apply();
+        
         this.objects[this.selectedObject].display();
 
         // ---- END Primitive drawing section
