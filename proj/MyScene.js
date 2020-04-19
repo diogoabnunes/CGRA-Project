@@ -13,7 +13,7 @@ class MyScene extends CGFscene {
         super.init(application);
         this.initCameras();
         this.initLights();
-        this.initCubeMap();
+        //this.initCubeMap();
 
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -33,20 +33,62 @@ class MyScene extends CGFscene {
         this.objects = [
             new MySphere(this, 16, 8),
             new MyCilinder(this, 16),
-            new MyVehicle(this, 4)
+            new MyCubeMap(this, new CGFtexture(this, 'images/cubemap.png'))
         ];
         this.objectList = {
             'Sphere': 0,
             'Cilinder': 1,
-            'Vehicle': 2
+            'Cube Map': 2
         };
         this.selectedObject = 2;
+
+        this.vehicle = new MyVehicle(this, 4);
 
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.displayNormals = false;
         this.displayTextures = false;
+        this.displayVehicle = true;
     }
+
+    checkKeys() {
+        var text = "Keys pressed: ";
+        var keysPressed = false;
+
+        // Check for key codes e.g. in https://keycode.info/
+        if (this.gui.isKeyPressed("KeyW")) {
+            this.vehicle.accelerate(0.1);
+            keysPressed = true;
+        }
+
+        if (this.gui.isKeyPressed("KeyS")) {
+            this.vehicle.accelerate(-0.1);
+            keysPressed = true;
+        }
+
+        if (this.gui.isKeyPressed("KeyA")) {
+            this.vehicle.turn(15);
+            keysPressed = true;
+        }
+
+        if (this.gui.isKeyPressed("KeyD")) {
+            this.vehicle.turn(-15);
+            keysPressed = true;
+        }
+
+        if (this.gui.isKeyPressed("KeyR")) {
+            this.vehicle.reset();
+            keysPressed = true;
+        }
+
+        if (keysPressed) {
+            console.log("Angle: %d\n", this.vehicle.angle);
+            console.log("Speed: %d\n", this.vehicle.speed);
+            this.vehicle.update();
+        }
+
+    }
+
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
         this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -56,7 +98,7 @@ class MyScene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
-    initCubeMap() {
+    /*initCubeMap() {
         this.cubeMaps= [
             'images/cubemap.png'
         ];
@@ -65,7 +107,7 @@ class MyScene extends CGFscene {
         };
         this.selectedCubeMap = 0;
         this.cubeMap = new MyCubeMap(this, new CGFtexture(this, this.cubeMaps[this.selectedCubeMap]));
-    }
+    }*/
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -74,7 +116,7 @@ class MyScene extends CGFscene {
     }
     // called periodically (as per setUpdatePeriod() in init())
     update(t){
-        //To be done...
+        this.checkKeys();
     }
 
     display() {
@@ -96,7 +138,7 @@ class MyScene extends CGFscene {
         this.multMatrix(sca);
         
         // Draw axis
-        this.cubeMap.display();
+        //this.cubeMap.display();
         if (this.displayAxis) this.axis.display();
 
         if (this.displayNormals) this.objects[this.selectedObject].enableNormalViz();
@@ -107,6 +149,8 @@ class MyScene extends CGFscene {
         // ---- BEGIN Primitive drawing section
         
         this.objects[this.selectedObject].display();
+
+        if (this.displayVehicle) this.vehicle.display();
 
         // ---- END Primitive drawing section
     }
