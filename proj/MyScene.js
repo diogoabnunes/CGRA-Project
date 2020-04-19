@@ -32,13 +32,15 @@ class MyScene extends CGFscene {
         
         this.objects = [
             new MySphere(this, 16, 8),
-            new MyCilinder(this, 16)
+            new MyCilinder(this, 16),
+            new MyVehicle(this, 4)
         ];
         this.objectList = {
             'Sphere': 0,
-            'Cilinder': 1
+            'Cilinder': 1,
+            'Vehicle': 2
         };
-        this.selectedObject = 0;
+        this.selectedObject = 2;
 
         //Objects connected to MyInterface
         this.displayAxis = true;
