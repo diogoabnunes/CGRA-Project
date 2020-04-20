@@ -17,11 +17,15 @@ class MyInterface extends CGFinterface {
         var obj = this;
 
         //Checkbox element in GUI
-        this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
+        this.gui.add(this.scene, 'globalScaleFactor', 0.1, 5).name('Scale Factor');
+
+        this.gui.add(this.scene, 'selectedCubeMap', this.scene.cubeMapsList).name('Cube Map').onChange(this.scene.cubeMapChanged.bind(this.scene));
 
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
         this.gui.add(this.scene, 'displayNormals').name('Display Normals');
         this.gui.add(this.scene, 'displayVehicle').name('Display Vehicle');
+        this.gui.add(this.scene, 'scaleFactor', 0.5, 3.0).name('Scale');
+        this.gui.add(this.scene, 'speedFactor', 0.1, 3.0).name("Speed");
 
         this.gui.add(this.scene, 'selectedObject', this.scene.objectList).name('Object');
 

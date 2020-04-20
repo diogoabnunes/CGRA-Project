@@ -102,35 +102,35 @@ class MyCubeMap extends CGFobject {
         ];
         this.texCoords = [
             // Face x positivo -> "Direita"
-            0.75, 0.33,
-            0.50, 0.33,
-            0.50, 0.67,
-            0.75, 0.67,
+            0.75, 0.34,
+            0.50, 0.34,
+            0.50, 0.66,
+            0.75, 0.66,
             // Face y positivo -> "Topo"
             0.25, 0.33,
             0.50, 0.33,
             0.50, 0.00,
             0.25, 0.00,
             // Face z positivo -> "Trás"
-            1.00, 0.33,
-            0.75, 0.33,
-            0.75, 0.67,
-            1.00, 0.67,
+            1.00, 0.34,
+            0.75, 0.34,
+            0.75, 0.66,
+            1.00, 0.66,
             // Face x negativo -> "Esquerda"
-            0.25, 0.33,
-            0.00, 0.33,
-            0.00, 0.67,
-            0.25, 0.67,
+            0.25, 0.34,
+            0.00, 0.34,
+            0.00, 0.66,
+            0.25, 0.66,
             // Face y negativo -> "Fundo"
             0.25, 1.00,
             0.50, 1.00, 
-            0.50, 0.67,
-            0.25, 0.67,
+            0.50, 0.66,
+            0.25, 0.66,
             // Face z negativo -> "Frente"
-            0.50, 0.33,
-            0.25, 0.33,
-            0.25, 0.67,
-            0.50, 0.67
+            0.50, 0.34,
+            0.25, 0.34,
+            0.25, 0.66,
+            0.50, 0.66
         ];
 
 		//The defined indices (and corresponding vertices)
@@ -138,6 +138,11 @@ class MyCubeMap extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
 
         this.initGLBuffers();
+    }
+
+    updateBuffers() {
+        this.initBuffers();
+        this.initNormalVizBuffers();
     }
 
     display() {
