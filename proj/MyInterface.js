@@ -16,15 +16,21 @@ class MyInterface extends CGFinterface {
         
         var obj = this;
 
+        //Slider element in GUI
+        this.gui.add(this.scene, 'scaleFactor', 0.5, 3.0).name('Scale Factor');
+        
         //Checkbox element in GUI
-        this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
-
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
         this.gui.add(this.scene, 'displayNormals').name('Display Normals');
+        this.gui.add(this.scene, 'displayObjects').name('Display Object');
         this.gui.add(this.scene, 'displayVehicle').name('Display Vehicle');
+        this.gui.add(this.scene, 'speedFactor', 0.1, 3.0).name('Speed Factor'); //Slider element in GUI
 
+        //List Box element in GUI
         this.gui.add(this.scene, 'selectedObject', this.scene.objectList).name('Object');
+        this.gui.add(this.scene, 'selectedTexture', this.scene.textureList).name('Texture').onChange(this.scene.onSelectedTexture.bind(this.scene));
 
+        
         this.initKeys();
 
         return true;

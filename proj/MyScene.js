@@ -7,13 +7,14 @@ class MyScene extends CGFscene {
         super();
         this.texture = null;
         this.appearance = null;
-        this.scaleFactor = 1;
+
     }
+
     init(application) {
         super.init(application);
         this.initCameras();
         this.initLights();
-        //this.initCubeMap();
+        this.initCubeMap();
 
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -33,22 +34,24 @@ class MyScene extends CGFscene {
         this.objects = [
             new MySphere(this, 16, 8),
             new MyCilinder(this, 16),
-            new MyCubeMap(this, new CGFtexture(this, 'images/cubemap.png'))
+            new MyCubeMap(this),
         ];
-        this.objectList = {
-            'Sphere': 0,
-            'Cilinder': 1,
-            'Cube Map': 2
-        };
+
+        this.objectList = {'Sphere': 0, 'Cilinder': 1, /*'Cube Map': 2*/};
         this.selectedObject = 2;
 
         this.vehicle = new MyVehicle(this, 4);
+
 
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.displayNormals = false;
         this.displayTextures = false;
+        this.displayObjects = false;
         this.displayVehicle = true;
+
+        this.scaleFactor = 1;
+        this.speedFactor = 1;
     }
 
     checkKeys() {
@@ -57,12 +60,12 @@ class MyScene extends CGFscene {
 
         // Check for key codes e.g. in https://keycode.info/
         if (this.gui.isKeyPressed("KeyW")) {
-            this.vehicle.accelerate(0.1);
+            this.vehicle.accelerate(0.01*this.speedFactor);
             keysPressed = true;
         }
 
         if (this.gui.isKeyPressed("KeyS")) {
-            this.vehicle.accelerate(-0.1);
+            this.vehicle.accelerate(-0.01*this.speedFactor);
             keysPressed = true;
         }
 
@@ -95,27 +98,30 @@ class MyScene extends CGFscene {
         this.lights[0].enable();
         this.lights[0].update();
     }
+
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
-    /*initCubeMap() {
-        this.cubeMaps= [
-            'images/cubemap.png'
-        ];
-        this.cubeMapsList = {
-            'CubeMap': 0
-        };
-        this.selectedCubeMap = 0;
-        this.cubeMap = new MyCubeMap(this, new CGFtexture(this, this.cubeMaps[this.selectedCubeMap]));
-    }*/
+
+    initCubeMap() {
+        this.cubeMaps= ['images/cubemap.png', 'images/desert.jpg', 'images/windows.jpg'];
+        this.textureList = {'Sky': 0, 'Desert': 1, 'Windows': 2};
+        this.selectedTexture = 0;
+        this.cubeMap = new MyCubeMap(this, new CGFtexture(this, this.cubeMaps[this.selectedTexture]));
+    }
+
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
-    // called periodically (as per setUpdatePeriod() in init())
-    update(t){
+    
+    onSelectedTexture() {
+        this.cubeMap.texture = new CGFtexture(this, this.cubeMaps[this.selectedTexture]);
+    }
+
+    update(t) {
         this.checkKeys();
     }
 
@@ -138,8 +144,8 @@ class MyScene extends CGFscene {
         this.multMatrix(sca);
         
         // Draw axis
-        //this.cubeMap.display();
-        if (this.displayAxis) this.axis.display();
+        if (this.displayAxis) 
+            this.axis.display();
 
         if (this.displayNormals) this.objects[this.selectedObject].enableNormalViz();
         else this.objects[this.selectedObject].disableNormalViz();
@@ -147,11 +153,20 @@ class MyScene extends CGFscene {
         this.setDefaultAppearance();
 
         // ---- BEGIN Primitive drawing section
+        this.pushMatrix();
         
-        this.objects[this.selectedObject].display();
+        //Allow Objects Earth & Cylinder to be displayed
+        if(this.displayObjects)
+            this.objects[this.selectedObject].display();
+        
+        //Display Vehicle
+        if (this.displayVehicle) {
+            this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
+            this.vehicle.display();
+    }
+        this.cubeMap.display();
 
-        if (this.displayVehicle) this.vehicle.display();
-
+        this.popMatrix();
         // ---- END Primitive drawing section
     }
 }
