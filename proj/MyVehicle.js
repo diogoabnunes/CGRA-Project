@@ -89,11 +89,10 @@ class MyVehicle extends CGFobject {
     }
 
     display() {
-        
         this.scene.pushMatrix();
         this.scene.translate(this.x, this.y, this.z);
         this.scene.rotate((90 + this.angle) * Math.PI / 180, 1, 0, 0);
-        this.scene.scale(0.50, 1, 0.50);
+        this.scene.scale(0.50, 1, 0.50); // tamanho unitário
         super.display();
         this.scene.popMatrix();
     }

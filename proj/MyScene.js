@@ -7,7 +7,7 @@ class MyScene extends CGFscene {
         super();
         this.texture = null;
         this.appearance = null;
-        this.globalScaleFactor = 1;
+        this.globalScaleFactor = 0.5;
     }
     init(application) {
         super.init(application);
@@ -79,12 +79,12 @@ class MyScene extends CGFscene {
         }
 
         if (this.gui.isKeyPressed("KeyA")) {
-            this.vehicle.turn(15);
+            this.vehicle.turn(5);
             keysPressed = true;
         }
 
         if (this.gui.isKeyPressed("KeyD")) {
-            this.vehicle.turn(-15);
+            this.vehicle.turn(-5);
             keysPressed = true;
         }
 
@@ -119,6 +119,7 @@ class MyScene extends CGFscene {
     // called periodically (as per setUpdatePeriod() in init())
     update(t){
         this.checkKeys();
+        this.vehicle.update();
     }
 
     cubeMapChanged() {
@@ -158,8 +159,10 @@ class MyScene extends CGFscene {
         this.objects[this.selectedObject].display();
 
         if (this.displayVehicle) {
+            this.pushMatrix();
             this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
             this.vehicle.display();
+            this.popMatrix();
         }
 
         // ---- END Primitive drawing section
