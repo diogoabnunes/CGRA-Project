@@ -159,10 +159,10 @@ class MyScene extends CGFscene {
         this.objects[this.selectedObject].display();
 
         if (this.displayVehicle) {
-            this.pushMatrix();
+            //this.pushMatrix();
             this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
             this.vehicle.display();
-            this.popMatrix();
+            //this.popMatrix();
         }
 
         // ---- END Primitive drawing section
