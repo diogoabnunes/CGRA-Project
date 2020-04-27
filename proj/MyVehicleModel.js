@@ -95,7 +95,7 @@ class MyVehicleModel extends CGFobject {
         this.white.apply();
         this.scene.pushMatrix();
         this.scene.translate(0, 0.25, -0.5);
-        this.scene.rotate(-Math.PI/2, 0, 1, 0); // TODO: angulo movível
+        //this.scene.rotate(-Math.PI/2, 0, 1, 0); // TODO: angulo movível
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
         this.scene.popMatrix();
@@ -107,8 +107,7 @@ class MyVehicleModel extends CGFobject {
         this.white.apply();
         this.scene.pushMatrix();
         this.scene.translate(0, -0.25, -0.5);
-        this.scene.rotate(Math.PI, 0, 0, 1); // TODO: angulo movível
-        this.scene.rotate(-Math.PI/2, 0, 1, 1)
+        //this.scene.rotate(Math.PI, 0, 0, 1); // TODO: angulo movível
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
         this.scene.popMatrix();
@@ -157,4 +156,5 @@ class MyVehicleModel extends CGFobject {
             this.lemeRotate = Math.PI/10;
         else
             this.lemeRotate = 0;
+    }
 }
