@@ -164,11 +164,16 @@ class MyScene extends CGFscene {
         this.cubeMap.display();
         
         this.objects[this.selectedObject].display();
-
+        
         if (this.displayVehicle) {
+            this.pushMatrix();
+            this.translate(this.vehicle.x, 0, this.vehicle.z);
             this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
+            this.translate(-this.vehicle.x, 0, -this.vehicle.z);
             this.vehicle.display();
+            this.popMatrix();
         }
+
 
         // ---- END Primitive drawing section
     }
