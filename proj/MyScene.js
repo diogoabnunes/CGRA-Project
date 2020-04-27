@@ -27,34 +27,44 @@ class MyScene extends CGFscene {
         this.enableTextures(true);
 
         //Initialize scene objects
+
+        this.cubeMap = new MyCubeMap(this);
+
         this.axis = new CGFaxis(this);        
         this.sphere = new MySphere(this, 16, 8);
         this.cilinder = new MyCilinder(this, 16);
         this.vehicle = new MyVehicle(this, 4);
 
-        this.objects = [this.sphere, this.cilinder, this.vehicle];
+        this.objects = [this.sphere, this.cilinder, this.cubeMap];
         this.objectList = {
             'Sphere': 0,
             'Cilinder': 1,
-            'Vehicle': 2
+            'CubeMap': 2,
         };
         this.selectedObject = 2;
 
-        this.iCubeMap = new CGFtexture(this, 'images/cubemap.png');
-        this.iDesert = new CGFtexture(this, 'images/desert.jpg');
-        this.iWindows = new CGFtexture(this, 'images/windows.jpg');
-        this.cubeMaps = [this.iCubeMap, this.iDesert, this.iWindows];
+        this.scaleFactor = 1;
+        this.speedFactor = 1;
 
-        this.cubeMapsList = {
-            'Cube Map': 0,
+        this.material = new CGFappearance(this);
+        this.material.setAmbient(0.1, 0.1, 0.1, 1);
+        this.material.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.material.setSpecular(0.1, 0.1, 0.1, 1);
+        this.material.setShininess(10.0);
+        this.material.loadTexture('images/earth.jpg');
+        this.material.setTextureWrap('REPEAT', 'REPEAT');
+
+        this.textures = [
+            new CGFtexture(this, 'images/cubemap.png'),
+            new CGFtexture(this, 'images/desert.jpg'),
+            new CGFtexture(this, 'images/windows.jpg')
+        ];
+        this.textureList = {
+            'Default': 0,
             'Desert': 1,
             'Windows': 2
         };
-        this.selectedCubeMap = 0;
-        this.cubeMap = new MyCubeMap(this, this.cubeMaps[this.selectedCubeMap]);
-
-        this.scaleFactor = 1;
-        this.speedFactor = 1;
+        this.selectedTexture = 0;
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -122,9 +132,8 @@ class MyScene extends CGFscene {
         this.vehicle.update();
     }
 
-    cubeMapChanged() {
-        this.cubeMap = new MyCubeMap(this, this.cubeMaps[this.selectedCubeMap]);
-        this.cubeMap.updateBuffers();
+    updateTextureChanged() {
+        this.material.setTexture(this.textures[this.selectedTexture]);
     }
 
     display() {
@@ -144,25 +153,21 @@ class MyScene extends CGFscene {
             0.0, 0.0, 0.0, 1.0];
 
         this.multMatrix(sca);
-        
-        //this.cubeMap.display();
-        if (this.displayAxis) this.axis.display();
-
-        if (this.displayNormals) this.objects[this.selectedObject].enableNormalViz();
-        else this.objects[this.selectedObject].disableNormalViz();
-
         this.setDefaultAppearance();
+
+        if (this.displayAxis) this.axis.display();
 
         // ---- BEGIN Primitive drawing section
         
+        this.material.apply();
+        this.updateTextureChanged();
         this.cubeMap.display();
+        
         this.objects[this.selectedObject].display();
 
         if (this.displayVehicle) {
-            //this.pushMatrix();
             this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
             this.vehicle.display();
-            //this.popMatrix();
         }
 
         // ---- END Primitive drawing section

@@ -4,17 +4,11 @@
  * @param scene - Reference to MyScene object
  */
 class MyCubeMap extends CGFobject {
-	constructor(scene, texture) {
+	constructor(scene) {
         super(scene);
-        this.texture = texture;
 		this.initBuffers();
 	}
 	initBuffers() {
-        this.desktop = new CGFappearance(this.scene);
-        this.desktop.setAmbient(1, 1, 1, 1);
-        this.desktop.setEmission(1, 1, 1, 1);
-        this.desktop.setTexture(this.texture);
-        this.desktop.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
         this.vertices = [
             // Face x positivo
@@ -146,7 +140,6 @@ class MyCubeMap extends CGFobject {
     }
 
     display() {
-        this.desktop.apply();
         this.scene.pushMatrix();
         this.scene.scale(50, 50, 50);
         super.display();

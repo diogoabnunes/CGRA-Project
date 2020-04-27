@@ -3,99 +3,140 @@
 * @constructor
 */
 class MyVehicleModel extends CGFobject {
-    constructor(scene, slices) {
+    constructor(scene) {
         super(scene);
         this.scene = scene;
-        this.envelope = new MyEnvelope(this.scene);
-        this.angle = 0;
-        this.speed = 0;
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
-    }
-    initBuffers() {
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-
-        var ang = 0;
-        var alphaAng = 2*Math.PI/this.slices;
-
-        for(var i = 0; i < this.slices; i++){
-            // All vertices have to be declared for a given face
-            // even if they are shared with others, as the normals 
-            // in each face will be different
-
-            var sa=Math.sin(ang);
-            var saa=Math.sin(ang+alphaAng);
-            var ca=Math.cos(ang);
-            var caa=Math.cos(ang+alphaAng);
-
-            this.vertices.push(0,1,0);
-            this.vertices.push(ca, 0, -sa);
-            this.vertices.push(caa, 0, -saa);
-
-            // triangle normal computed by cross product of two edges
-            var normal= [
-                saa-sa,
-                ca*saa-sa*caa,
-                caa-ca
-            ];
-
-            // normalization
-            var nsize=Math.sqrt(
-                normal[0]*normal[0]+
-                normal[1]*normal[1]+
-                normal[2]*normal[2]
-                );
-            normal[0]/=nsize;
-            normal[1]/=nsize;
-            normal[2]/=nsize;
-
-            // push normal once for each vertex of this triangle
-            this.normals.push(...normal);
-            this.normals.push(...normal);
-            this.normals.push(...normal);
-
-            this.indices.push(3*i, (3*i+1) , (3*i+2) );
-
-            ang+=alphaAng;
-        }
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-    }
-    
-    update() {
-        this.x += this.speed * Math.sin(this.angle * Math.PI / 180);
-        this.z += this.speed * Math.cos(this.angle * Math.PI / 180);
+        this.initMaterials(scene);
+        this.envelope = new MySphere(scene, 16, 8);
+        this.gondola = new MyGondola(scene);
+        this.leme = new MyLeme(scene);
+        this.motor = new MySphere(scene, 16, 8);
+        this.helice = new MyHelice(scene);
     }
 
-    turn(val) {
-        if (this.angle == 360) this.angle = 0;
-        else if (this.angle == -360) this.angle = 0;
-        else this.angle += val;
-    }
+    initMaterials(scene) {
+        this.prozisTexture = new CGFappearance(scene);
+        this.prozisTexture.setAmbient(0.1, 0.1, 0.1, 1);
+        this.prozisTexture.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.prozisTexture.setSpecular(0.1, 0.1, 0.1, 1);
+        this.prozisTexture.setShininess(10.0);
+        this.prozisTexture.loadTexture('images/prozis.png');
+        this.prozisTexture.setTextureWrap('REPEAT', 'REPEAT');
 
-    accelerate(val) {
-        this.speed += val;
-    }
+        this.white = new CGFappearance(scene);
+        this.white.setAmbient(0.1, 0.1, 0.1, 1);
+        this.white.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.white.setSpecular(0.1, 0.1, 0.1, 1);
+        this.white.setShininess(10.0);
+        this.white.loadTexture('images/white.png');
+        this.white.setTextureWrap('REPEAT', 'REPEAT');
 
-    reset() {
-        this.angle = 0;
-        this.speed = 0;
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
+        this.black = new CGFappearance(scene);
+        this.black.setAmbient(0.1, 0.1, 0.1, 1);
+        this.black.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.black.setSpecular(0.1, 0.1, 0.1, 1);
+        this.black.setShininess(10.0);
+        this.black.loadTexture('images/black.png');
+        this.black.setTextureWrap('REPEAT', 'REPEAT');
+
+        this.red = new CGFappearance(scene);
+        this.red.setAmbient(0.1, 0.1, 0.1, 1);
+        this.red.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.red.setSpecular(0.1, 0.1, 0.1, 1);
+        this.red.setShininess(10.0);
+        this.red.loadTexture('images/red.png');
+        this.red.setTextureWrap('REPEAT', 'REPEAT');
     }
 
     display() {
+        
+        // Envelope
+        this.prozisTexture.apply();
         this.scene.pushMatrix();
-
-        this.scene.translate(this.x, this.y, this.z);
-        this.scene.rotate(this.angle * Math.PI / 180, 0, 1, 0);
-        //this.translate(0, 10, 0);
+        this.scene.scale(0.5, 0.5, 1);
         this.envelope.display();
+        this.scene.popMatrix();
+
+        // Gondola
+        this.black.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0, -0.5, 0);
+        this.scene.scale(0.1, 0.1, 0.1);
+        this.gondola.display();
+        this.scene.popMatrix();
+
+        // Leme estático esquerdo
+        this.white.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0.25, 0, -0.5);
+        this.scene.rotate(90 * Math.PI/180.0, 0, 0, 1);
+        this.scene.scale(0.15, 0.15, 0.15);
+        this.leme.display();
+        this.scene.popMatrix();
+
+        // Leme estático direito
+        this.white.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(-0.25, 0, -0.5);
+        this.scene.rotate(90 * Math.PI/180.0, 0, 0, 1);
+        this.scene.scale(0.15, 0.15, 0.15);
+        this.leme.display();
+        this.scene.popMatrix();
+
+        // Leme movível de cima
+        // TODO: deverão inclinar para a esquerda ou direita quando o dirigível está a alterar a sua direção. 
+        //Enquanto a tecla “W” ou “A” for pressionada, os lemes deverão inclinar na direção
+        // oposta da rotação.
+        this.white.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.25, -0.5);
+        //this.scene.rotate(22.5 * Math.PI/180.0, 0, 1, 0); // TODO: angulo movível
+        this.scene.scale(0.15, 0.15, 0.15);
+        this.leme.display();
+        this.scene.popMatrix();
+
+        // Leme movível de baixo
+        // TODO: deverão inclinar para a esquerda ou direita quando o dirigível está a alterar a sua direção. 
+        //Enquanto a tecla “W” ou “A” for pressionada, os lemes deverão inclinar na direção
+        // oposta da rotação.
+        this.white.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0, -0.25, -0.5);
+        //this.scene.rotate(22.5 * Math.PI/180.0, 0, 1, 0); // TODO: angulo movível
+        this.scene.scale(0.15, 0.15, 0.15);
+        this.leme.display();
+        this.scene.popMatrix();
+
+        // Motor direito
+        this.red.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(-0.1, -0.55, -0.3)
+        this.scene.scale(0.05,0.05,0.1);
+        this.motor.display();
+        this.scene.popMatrix();
+
+        // Motor esquerdo
+        this.red.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0.1, -0.55, -0.3)
+        this.scene.scale(0.05,0.05,0.1);
+        this.motor.display();
+        this.scene.popMatrix();
+
+        // Helice direita
+        this.black.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(-0.1, -0.55, -0.40);
+        this.scene.scale(0.02, 0.02, 0.02);
+        this.helice.display();
+        this.scene.popMatrix();
+
+        // Helice esquerda
+        this.black.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0.1, -0.55, -0.40);
+        this.scene.scale(0.02, 0.02, 0.02);
+        this.helice.display();
         this.scene.popMatrix();
     }
 }

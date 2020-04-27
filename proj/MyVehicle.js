@@ -12,6 +12,7 @@ class MyVehicle extends CGFobject {
         this.x = 0;
         this.y = 0;
         this.z = 0;
+        
     }
     
     update() {
@@ -27,6 +28,7 @@ class MyVehicle extends CGFobject {
 
     accelerate(val) {
         this.speed += val;
+        if (this.speed < 0) this.speed = 0;
     }
 
     reset() {
@@ -38,11 +40,12 @@ class MyVehicle extends CGFobject {
     }
 
     display() {
-        this.scene.pushMatrix();
 
+
+        this.scene.pushMatrix();
         this.scene.translate(this.x, this.y, this.z);
         this.scene.rotate(this.angle * Math.PI / 180, 0, 1, 0);
-        //this.translate(0, 10, 0);
+        //this.translate(0, 10, 0); // descomentar mais tarde
         this.vehicle.display();
         this.scene.popMatrix();
     }
