@@ -12,6 +12,8 @@ class MyVehicleModel extends CGFobject {
         this.leme = new MyLeme(scene);
         this.motor = new MySphere(scene, 16, 8);
         this.helice = new MyHelice(scene);
+
+        this.lemeRotate = 0;
     }
 
     initMaterials(scene) {
@@ -83,6 +85,9 @@ class MyVehicleModel extends CGFobject {
         this.leme.display();
         this.scene.popMatrix();
 
+        this.scene.pushMatrix();
+        this.scene.rotate(this.lemeRotate, 0, 1, 0);
+
         // Leme movível de cima
         // TODO: deverão inclinar para a esquerda ou direita quando o dirigível está a alterar a sua direção. 
         //Enquanto a tecla “W” ou “A” for pressionada, os lemes deverão inclinar na direção
@@ -90,7 +95,7 @@ class MyVehicleModel extends CGFobject {
         this.white.apply();
         this.scene.pushMatrix();
         this.scene.translate(0, 0.25, -0.5);
-        //this.scene.rotate(22.5 * Math.PI/180.0, 0, 1, 0); // TODO: angulo movível
+        this.scene.rotate(-Math.PI/2, 0, 1, 0); // TODO: angulo movível
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
         this.scene.popMatrix();
@@ -102,9 +107,12 @@ class MyVehicleModel extends CGFobject {
         this.white.apply();
         this.scene.pushMatrix();
         this.scene.translate(0, -0.25, -0.5);
-        //this.scene.rotate(22.5 * Math.PI/180.0, 0, 1, 0); // TODO: angulo movível
+        this.scene.rotate(Math.PI, 0, 0, 1); // TODO: angulo movível
+        this.scene.rotate(-Math.PI/2, 0, 1, 1)
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
+        this.scene.popMatrix();
+
         this.scene.popMatrix();
 
         // Motor direito
@@ -139,4 +147,14 @@ class MyVehicleModel extends CGFobject {
         this.helice.display();
         this.scene.popMatrix();
     }
+
+
+    turnLeme(direction){
+        if(direction == 1){
+            this.lemeRotate = -Math.PI/10;
+        }
+        else if(direction == 2)
+            this.lemeRotate = Math.PI/10;
+        else
+            this.lemeRotate = 0;
 }
