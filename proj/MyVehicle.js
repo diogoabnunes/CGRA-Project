@@ -10,7 +10,7 @@ class MyVehicle extends CGFobject {
         this.angle = 0;
         this.speed = 0;
         this.x = 0;
-        this.y = 0;
+        this.y = 10;
         this.z = 0;
         
     }
@@ -35,7 +35,7 @@ class MyVehicle extends CGFobject {
         this.angle = 0;
         this.speed = 0;
         this.x = 0;
-        this.y = 0;
+        this.y = 10;
         this.z = 0;
     }
 

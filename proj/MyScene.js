@@ -7,7 +7,7 @@ class MyScene extends CGFscene {
         super();
         this.texture = null;
         this.appearance = null;
-        this.globalScaleFactor = 0.5;
+        this.globalScaleFactor = 1;
     }
     init(application) {
         super.init(application);
@@ -35,14 +35,6 @@ class MyScene extends CGFscene {
         this.cilinder = new MyCilinder(this, 16);
         this.vehicle = new MyVehicle(this, 4);
 
-        this.objects = [this.sphere, this.cilinder, this.cubeMap];
-        this.objectList = {
-            'Sphere': 0,
-            'Cilinder': 1,
-            'CubeMap': 2,
-        };
-        this.selectedObject = 2;
-
         this.scaleFactor = 1;
         this.speedFactor = 1;
 
@@ -51,18 +43,28 @@ class MyScene extends CGFscene {
         this.material.setDiffuse(0.9, 0.9, 0.9, 1);
         this.material.setSpecular(0.1, 0.1, 0.1, 1);
         this.material.setShininess(10.0);
-        this.material.loadTexture('images/earth.jpg');
+        this.material.loadTexture('images/red.png');
         this.material.setTextureWrap('REPEAT', 'REPEAT');
+
+        this.earth = new CGFappearance(this);
+        this.earth.setAmbient(0.1, 0.1, 0.1, 1);
+        this.earth.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.earth.setSpecular(0.1, 0.1, 0.1, 1);
+        this.earth.setShininess(10.0);
+        this.earth.loadTexture('images/earth.jpg');
+        this.earth.setTextureWrap('REPEAT', 'REPEAT');
 
         this.textures = [
             new CGFtexture(this, 'images/cubemap.png'),
             new CGFtexture(this, 'images/desert.jpg'),
-            new CGFtexture(this, 'images/windows.jpg')
+            new CGFtexture(this, 'images/windows.jpg'),
+            new CGFtexture(this, 'images/earth.jpg')
         ];
         this.textureList = {
             'Default': 0,
             'Desert': 1,
-            'Windows': 2
+            'Windows': 2,
+            'Earth': 3
         };
         this.selectedTexture = 0;
 
@@ -70,7 +72,8 @@ class MyScene extends CGFscene {
         this.displayAxis = true;
         this.displayNormals = false;
         this.displayTextures = false;
-        this.displayVehicle = true;        
+        this.displayVehicle = true;   
+        this.displayEarth = false;     
     }
 
     checkKeys() {
@@ -118,7 +121,7 @@ class MyScene extends CGFscene {
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.camera = new CGFcamera(1, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 5, 0));
     }
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
@@ -158,12 +161,15 @@ class MyScene extends CGFscene {
         if (this.displayAxis) this.axis.display();
 
         // ---- BEGIN Primitive drawing section
+
+        if (this.displayEarth) {
+            this.earth.apply();
+            this.sphere.display();
+        }
         
         this.material.apply();
         this.updateTextureChanged();
         this.cubeMap.display();
-        
-        this.objects[this.selectedObject].display();
         
         if (this.displayVehicle) {
             this.pushMatrix();
