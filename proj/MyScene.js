@@ -108,7 +108,7 @@ class MyScene extends CGFscene {
             }
 
             if (this.gui.isKeyPressed("KeyP")) {
-                this.vehicle.autoPilot = true;
+                this.vehicle.startAutoPilot();
                 keysPressed = true;
             }
 
@@ -135,7 +135,7 @@ class MyScene extends CGFscene {
                 console.log("Speed: %d\n", this.vehicle.speed);
             }
         }
-    this.vehicle.update();
+    //this.vehicle.update();
     }
 
     initLights() {
@@ -156,7 +156,7 @@ class MyScene extends CGFscene {
     // called periodically (as per setUpdatePeriod() in init())
     update(t){
         this.checkKeys();
-        this.vehicle.update();
+        this.vehicle.update(t);
     }
 
     updateTextureChanged() {
