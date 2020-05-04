@@ -108,7 +108,7 @@ class MyScene extends CGFscene {
 
         if (keysPressed) {
             console.log("Angle: %d\n", this.vehicle.angle);
-            console.log("Speed: %d\n", this.vehicle.speed);
+            console.log("Speed: %f\n", this.vehicle.speed);
             this.vehicle.update();
         }
 
@@ -173,9 +173,9 @@ class MyScene extends CGFscene {
         
         if (this.displayVehicle) {
             this.pushMatrix();
-            this.translate(this.vehicle.x, 0, this.vehicle.z);
+            this.translate(this.vehicle.x, 10, this.vehicle.z);
             this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-            this.translate(-this.vehicle.x, 0, -this.vehicle.z);
+            this.translate(-this.vehicle.x, -10, -this.vehicle.z);
             this.vehicle.display();
             this.popMatrix();
         }
