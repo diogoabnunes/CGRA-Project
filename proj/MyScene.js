@@ -80,38 +80,64 @@ class MyScene extends CGFscene {
         var text = "Keys pressed: ";
         var keysPressed = false;
 
-        // Check for key codes e.g. in https://keycode.info/
-        if (this.gui.isKeyPressed("KeyW")) {
-            this.vehicle.accelerate(0.01 * this.speedFactor);
-            keysPressed = true;
-        }
-
-        if (this.gui.isKeyPressed("KeyS")) {
-            this.vehicle.accelerate(-0.01 * this.speedFactor);
-            keysPressed = true;
-        }
-
-        if (this.gui.isKeyPressed("KeyA")) {
-            this.vehicle.turn(5);
-            keysPressed = true;
-        }
-
-        if (this.gui.isKeyPressed("KeyD")) {
-            this.vehicle.turn(-5);
-            keysPressed = true;
-        }
-
-        if (this.gui.isKeyPressed("KeyR")) {
-            this.vehicle.reset();
-            keysPressed = true;
-        }
-
-        if (keysPressed) {
-            console.log("Angle: %d\n", this.vehicle.angle);
-            console.log("Speed: %f\n", this.vehicle.speed);
-            this.vehicle.update();
-        }
-
+        if(this.vehicle.autoPilot == false) {
+            // Check for key codes e.g. in https://keycode.info/
+    
+                if (this.gui.isKeyPressed("KeyW")) {
+                    this.vehicle.accelerate(0.01 * this.speedFactor);
+                    keysPressed = true;
+                }
+    
+                if (this.gui.isKeyPressed("KeyS")) {
+                    this.vehicle.accelerate(-0.01 * this.speedFactor);
+                    keysPressed = true;
+                }   
+    
+                if (this.gui.isKeyPressed("KeyA")) {
+                    this.vehicle.turn(5);
+                    keysPressed = true;
+                }
+    
+                if (this.gui.isKeyPressed("KeyD")) {
+                    this.vehicle.turn(-5);
+                    keysPressed = true;
+                }
+    
+                if (this.gui.isKeyPressed("KeyR")) {
+                    this.vehicle.reset();
+                    keysPressed = true;
+                }
+    
+                if (this.gui.isKeyPressed("KeyP")) {
+                    this.vehicle.startAutoPilot();
+                    keysPressed = true;
+                }
+    
+                if (keysPressed) {
+                    console.log("Angle: %d\n", this.vehicle.angle);
+                    console.log("Speed: %f\n", this.vehicle.speed);
+                    //this.vehicle.update();
+                }
+            } 
+    
+            else {
+    
+                if (this.gui.isKeyPressed("KeyP")) {
+                    this.vehicle.autoPilot = false;
+                    keysPressed = true;
+                }
+    
+                if (this.gui.isKeyPressed("KeyR")) {
+                    this.vehicle.reset();
+                    keysPressed = true;
+                }
+    
+                if (keysPressed) {
+                    console.log("Angle: %d\n", this.vehicle.angle);
+                    console.log("Speed: %d\n", this.vehicle.speed);
+                    //this.vehicle.update();
+                }
+            }
     }
 
     initLights() {
@@ -132,7 +158,7 @@ class MyScene extends CGFscene {
     // called periodically (as per setUpdatePeriod() in init())
     update(t){
         this.checkKeys();
-        this.vehicle.update();
+        this.vehicle.update(t);
     }
 
     updateTextureChanged() {

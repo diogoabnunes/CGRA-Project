@@ -13,13 +13,48 @@ class MyVehicle extends CGFobject {
         this.y = 10;
         this.z = 0;
         this.heliceangle = 0;
-        this.autopilot = false;
+        
+        this.Ox = 0;
+        this.Oz = 0;
+
+        this.autoPilot = false;
+        this.pilotAngle = 0;
+
+        this.previousTime = 0;
+        this.deltaTime = 0;
+        this.deltaAngle = 0;
+        this.angularSpeed = 360/5.0;
     }
     
-    update() {
-        this.x += this.speed * Math.sin(this.angle * Math.PI / 180);
-        this.z += this.speed * Math.cos(this.angle * Math.PI / 180);
-        this.heliceangle += 5 * this.speed;
+    startAutoPilot() {
+        this.autoPilot = true;
+        this.pilotAngle = (this.angle + 90) * Math.PI/180.0;
+
+        this.Ox = this.x + 5*Math.sin(this.pilotAngle);
+        this.Oz = this.z + 5*Math.cos(this.pilotAngle);
+    }
+    
+    update(t) {
+        if(this.previousTime == 0)
+            this.previousTime = t;
+
+        this.deltaTime = (t - this.previousTime)/1000;
+        this.previousTime = t;
+
+        if(this.autoPilot) {
+            this.x = -5 * Math.cos(this.angle * Math.PI/180.0) + this.Ox;
+            this.z = 5 * Math.sin(this.angle * Math.PI/180.0) + this.Oz;
+
+            this.deltaAngle = this.deltaTime * this.angularSpeed;
+            
+            this.turn(this.deltaAngle);
+            this.heliceangle += 5 * this.speed;
+        } 
+        else {
+            this.x += this.speed * Math.sin(this.angle * Math.PI / 180);
+            this.z += this.speed * Math.cos(this.angle * Math.PI / 180);
+            this.heliceangle += 5 * this.speed;
+        }
     }
 
     turn(val) {
