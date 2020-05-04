@@ -48,7 +48,7 @@ class MyVehicleModel extends CGFobject {
         this.red.setTextureWrap('REPEAT', 'REPEAT');
     }
 
-    display() {
+    display(autopilot) {
         
         // Envelope
         this.prozisTexture.apply();
@@ -84,25 +84,29 @@ class MyVehicleModel extends CGFobject {
         this.scene.popMatrix();
 
         // Leme movível de cima
-        // TODO: deverão inclinar para a esquerda ou direita quando o dirigível está a alterar a sua direção. 
-        //Enquanto a tecla “W” ou “A” for pressionada, os lemes deverão inclinar na direção
-        // oposta da rotação.
         this.white.apply();
         this.scene.pushMatrix();
         this.scene.translate(0, 0.25, -0.5);
-        //this.scene.rotate(22.5 * Math.PI/180.0, 0, 1, 0); // TODO: angulo movível
+        if (!autopilot) {
+            if (this.scene.gui.isKeyPressed("KeyA"))
+                this.scene.rotate(- 5 * Math.PI/180.0, 0, 1, 0);
+            else if (this.scene.gui.isKeyPressed("KeyD"))
+                this.scene.rotate(5 * Math.PI/180.0, 0, 1, 0);
+        }
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
         this.scene.popMatrix();
 
         // Leme movível de baixo
-        // TODO: deverão inclinar para a esquerda ou direita quando o dirigível está a alterar a sua direção. 
-        //Enquanto a tecla “W” ou “A” for pressionada, os lemes deverão inclinar na direção
-        // oposta da rotação.
         this.white.apply();
         this.scene.pushMatrix();
         this.scene.translate(0, -0.25, -0.5);
-        //this.scene.rotate(22.5 * Math.PI/180.0, 0, 1, 0); // TODO: angulo movível
+        if (!autopilot) {
+            if (this.scene.gui.isKeyPressed("KeyA"))
+                this.scene.rotate(- 5 * Math.PI/180.0, 0, 1, 0);
+            else if (this.scene.gui.isKeyPressed("KeyD"))
+                this.scene.rotate(5 * Math.PI/180.0, 0, 1, 0);
+        }
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
         this.scene.popMatrix();
@@ -127,6 +131,7 @@ class MyVehicleModel extends CGFobject {
         this.black.apply();
         this.scene.pushMatrix();
         this.scene.translate(-0.1, -0.55, -0.40);
+        this.scene.rotate(this.scene.vehicle.heliceangle, 0, 0, 1);
         this.scene.scale(0.02, 0.02, 0.02);
         this.helice.display();
         this.scene.popMatrix();
@@ -135,6 +140,7 @@ class MyVehicleModel extends CGFobject {
         this.black.apply();
         this.scene.pushMatrix();
         this.scene.translate(0.1, -0.55, -0.40);
+        this.scene.rotate(this.scene.vehicle.heliceangle, 0, 0, 1);
         this.scene.scale(0.02, 0.02, 0.02);
         this.helice.display();
         this.scene.popMatrix();
