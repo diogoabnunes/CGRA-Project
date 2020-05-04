@@ -89,9 +89,12 @@ class MyVehicleModel extends CGFobject {
         this.scene.translate(0, 0.25, -0.5);
         if (!autopilot) {
             if (this.scene.gui.isKeyPressed("KeyA"))
-                this.scene.rotate(- 5 * Math.PI/180.0, 0, 1, 0);
+                this.scene.rotate(- 20 * Math.PI/180.0, 0, 1, 0);
             else if (this.scene.gui.isKeyPressed("KeyD"))
-                this.scene.rotate(5 * Math.PI/180.0, 0, 1, 0);
+                this.scene.rotate(20 * Math.PI/180.0, 0, 1, 0);
+        }
+        else {
+            this.scene.rotate(- 20 * Math.PI/180.0, 0, 1, 0);
         }
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
@@ -103,9 +106,12 @@ class MyVehicleModel extends CGFobject {
         this.scene.translate(0, -0.25, -0.5);
         if (!autopilot) {
             if (this.scene.gui.isKeyPressed("KeyA"))
-                this.scene.rotate(- 5 * Math.PI/180.0, 0, 1, 0);
+                this.scene.rotate(- 20 * Math.PI/180.0, 0, 1, 0);
             else if (this.scene.gui.isKeyPressed("KeyD"))
-                this.scene.rotate(5 * Math.PI/180.0, 0, 1, 0);
+                this.scene.rotate(20 * Math.PI/180.0, 0, 1, 0);
+        }
+        else {
+            this.scene.rotate(- 20 * Math.PI/180.0, 0, 1, 0);
         }
         this.scene.scale(0.15, 0.15, 0.15);
         this.leme.display();
