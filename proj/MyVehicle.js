@@ -14,8 +14,9 @@ class MyVehicle extends CGFobject {
         this.angle = 0;
         this.speed = 0;
         this.x = 0;
-        this.y = 0;
+        this.y = 10;
         this.z = 0;
+<<<<<<< HEAD
         
         this.Ox = 0;
         this.Oz = 0;
@@ -28,6 +29,16 @@ class MyVehicle extends CGFobject {
         this.deltaTime = 0;
         this.deltaAngle = 0;
         this.angularSpeed = 360/5.0;
+=======
+        this.heliceangle = 0;
+        this.autopilot = false;
+    }
+    
+    update() {
+        this.x += this.speed * Math.sin(this.angle * Math.PI / 180);
+        this.z += this.speed * Math.cos(this.angle * Math.PI / 180);
+        this.heliceangle += 5 * this.speed;
+>>>>>>> 4c1c0ffb733d1599e4f2017598be14b300c213f2
     }
 
     
@@ -80,16 +91,21 @@ class MyVehicle extends CGFobject {
         this.angle = 0;
         this.speed = 0;
         this.x = 0;
-        this.y = 0;
+        this.y = 10;
         this.z = 0;
+<<<<<<< HEAD
         this.autoPilot = false;
+=======
+        this.heliceangle = 0;
+        this.autopilot = false;
+>>>>>>> 4c1c0ffb733d1599e4f2017598be14b300c213f2
     }
     
     display() {
         this.scene.pushMatrix();
         this.scene.translate(this.x, this.y, this.z);
         this.scene.rotate(this.angle * Math.PI / 180, 0, 1, 0);
-        this.vehicle.display();
+        this.vehicle.display(this.autopilot);
         this.scene.popMatrix();
     }
 }
