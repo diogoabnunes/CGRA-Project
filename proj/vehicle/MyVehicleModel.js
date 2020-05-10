@@ -20,7 +20,7 @@ class MyVehicleModel extends CGFobject {
         this.prozisTexture.setDiffuse(0.9, 0.9, 0.9, 1);
         this.prozisTexture.setSpecular(0.1, 0.1, 0.1, 1);
         this.prozisTexture.setShininess(10.0);
-        this.prozisTexture.loadTexture('images/prozis.png');
+        this.prozisTexture.loadTexture('images/vehicle_textures/prozis.png');
         this.prozisTexture.setTextureWrap('REPEAT', 'REPEAT');
 
         this.white = new CGFappearance(scene);
@@ -28,7 +28,7 @@ class MyVehicleModel extends CGFobject {
         this.white.setDiffuse(0.9, 0.9, 0.9, 1);
         this.white.setSpecular(0.1, 0.1, 0.1, 1);
         this.white.setShininess(10.0);
-        this.white.loadTexture('images/white.png');
+        this.white.loadTexture('images/vehicle_textures/white.png');
         this.white.setTextureWrap('REPEAT', 'REPEAT');
 
         this.black = new CGFappearance(scene);
@@ -36,7 +36,7 @@ class MyVehicleModel extends CGFobject {
         this.black.setDiffuse(0.9, 0.9, 0.9, 1);
         this.black.setSpecular(0.1, 0.1, 0.1, 1);
         this.black.setShininess(10.0);
-        this.black.loadTexture('images/black.png');
+        this.black.loadTexture('images/vehicle_textures/black.png');
         this.black.setTextureWrap('REPEAT', 'REPEAT');
 
         this.red = new CGFappearance(scene);
@@ -44,7 +44,7 @@ class MyVehicleModel extends CGFobject {
         this.red.setDiffuse(0.9, 0.9, 0.9, 1);
         this.red.setSpecular(0.1, 0.1, 0.1, 1);
         this.red.setShininess(10.0);
-        this.red.loadTexture('images/red.png');
+        this.red.loadTexture('images/vehicle_textures/red.png');
         this.red.setTextureWrap('REPEAT', 'REPEAT');
     }
 

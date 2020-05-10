@@ -140,6 +140,11 @@ class MyCubeMap extends CGFobject {
     }
 
     display() {
+        this.scene.setGlobalAmbientLight(1, 1, 1, 1);
+        this.scene.setDiffuse(0, 0, 0);
+        this.scene.setSpecular(0, 0, 0, 0);
+        this.scene.setAmbient(1, 1, 1, 0);
+
         this.scene.pushMatrix();
         this.scene.scale(50, 50, 50);
         super.display();

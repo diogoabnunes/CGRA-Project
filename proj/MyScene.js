@@ -34,6 +34,7 @@ class MyScene extends CGFscene {
         this.sphere = new MySphere(this, 16, 8);
         this.cilinder = new MyCilinder(this, 16);
         this.vehicle = new MyVehicle(this, 4);
+        this.terrain = new MyTerrain(this);
 
         this.scaleFactor = 1;
         this.speedFactor = 1;
@@ -43,37 +44,25 @@ class MyScene extends CGFscene {
         this.material.setDiffuse(0.9, 0.9, 0.9, 1);
         this.material.setSpecular(0.1, 0.1, 0.1, 1);
         this.material.setShininess(10.0);
-        this.material.loadTexture('images/red.png');
+        this.material.loadTexture('images/earth.jpg');
         this.material.setTextureWrap('REPEAT', 'REPEAT');
 
-        this.earth = new CGFappearance(this);
-        this.earth.setAmbient(0.1, 0.1, 0.1, 1);
-        this.earth.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.earth.setSpecular(0.1, 0.1, 0.1, 1);
-        this.earth.setShininess(10.0);
-        this.earth.loadTexture('images/earth.jpg');
-        this.earth.setTextureWrap('REPEAT', 'REPEAT');
-
         this.textures = [
-            new CGFtexture(this, 'images/cubemap.png'),
-            new CGFtexture(this, 'images/desert.jpg'),
-            new CGFtexture(this, 'images/windows.jpg'),
-            new CGFtexture(this, 'images/earth.jpg')
+            new CGFtexture(this, 'images/cubemaps/cubemap.png'),
+            new CGFtexture(this, 'images/cubemaps/windows.jpg'),
+            new CGFtexture(this, 'images/cubemaps/testCubeMap.jpg')
         ];
         this.textureList = {
             'Default': 0,
-            'Desert': 1,
-            'Windows': 2,
-            'Earth': 3
+            'Windows': 1,
+            'TestCubeMap': 2
         };
         this.selectedTexture = 0;
 
         //Objects connected to MyInterface
         this.displayAxis = true;
-        this.displayNormals = false;
         this.displayTextures = false;
-        this.displayVehicle = true;   
-        this.displayEarth = false;     
+        this.displayVehicle = true;
     }
 
     checkKeys() {
@@ -147,7 +136,7 @@ class MyScene extends CGFscene {
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(1, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 5, 0));
+        this.camera = new CGFcamera(1, 0.1, 500, vec3.fromValues(20, 10, 20), vec3.fromValues(0, 5, 0));
     }
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
@@ -187,15 +176,13 @@ class MyScene extends CGFscene {
         if (this.displayAxis) this.axis.display();
 
         // ---- BEGIN Primitive drawing section
-
-        if (this.displayEarth) {
-            this.earth.apply();
-            this.sphere.display();
-        }
         
         this.material.apply();
         this.updateTextureChanged();
+        this.pushMatrix();
+        this.translate(0, 25, 0); // may need to change
         this.cubeMap.display();
+        this.popMatrix();
         
         if (this.displayVehicle) {
             this.pushMatrix();
@@ -206,6 +193,8 @@ class MyScene extends CGFscene {
             this.popMatrix();
         }
 
+        this.material.apply();
+        this.terrain.display();
 
         // ---- END Primitive drawing section
     }
