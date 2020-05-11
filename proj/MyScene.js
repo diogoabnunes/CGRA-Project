@@ -35,6 +35,7 @@ class MyScene extends CGFscene {
         this.cilinder = new MyCilinder(this, 16);
         this.vehicle = new MyVehicle(this, 4);
         this.terrain = new MyTerrain(this);
+        this.supply = new MySupply(this);
 
         this.scaleFactor = 1;
         this.speedFactor = 1;
@@ -192,6 +193,8 @@ class MyScene extends CGFscene {
             this.vehicle.display();
             this.popMatrix();
         }
+
+        this.supply.display();
 
         this.material.apply();
         this.terrain.display();
