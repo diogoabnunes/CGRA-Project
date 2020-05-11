@@ -111,7 +111,7 @@ class MyScene extends CGFscene {
                 }
 
                 if (this.gui.isKeyPressed("KeyL")) {
-                    if (this.nSuppliesDelivered < 5 && this.deltaLaunch >= 1000) {
+                    if (this.nSuppliesDelivered < 5 && this.deltaLaunch >= 800) {
                         this.supplies[this.nSuppliesDelivered].drop(this.vehicle.x, this.vehicle.y, this.vehicle.z);
                         this.nSuppliesDelivered += 1;
                         this.deltaLaunch = 0;

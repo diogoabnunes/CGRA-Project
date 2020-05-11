@@ -73,7 +73,7 @@ class MySupply extends CGFobject {
     }
     update(t) {
         if (this.state == SupplyStates.FALLING) {
-            this.y -= 0.15;
+            this.y -= 0.2;
             if (this.y < 0.5) {
                 this.land();
             }
