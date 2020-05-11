@@ -30,13 +30,20 @@ class MySupply extends CGFobject {
         this.interior.setTextureWrap('REPEAT', 'REPEAT');
     }
     display() {
-        this.wood.apply();
-        this.scene.pushMatrix();
-        this.scene.translate(0, 5, 0);
-        this.box.display();
-        this.scene.popMatrix();
-        
-        
+        if (this.state == SupplyStates.FALLING) {
+            this.wood.apply();
+            this.scene.pushMatrix();
+            this.scene.translate(0, 5, 0);
+            this.box.display(this.state);
+            this.scene.popMatrix();
+        }
+        else if (this.state == SupplyStates.LANDED) {
+            this.interior.apply();
+            this.scene.pushMatrix();
+            this.scene.translate(0, 5, 0);
+            this.box.display(this.state);
+            this.scene.popMatrix();
+        }
     }
     update(time) {
 
