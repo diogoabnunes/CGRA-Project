@@ -22,23 +22,22 @@ class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
 
-        this.setUpdatePeriod(50);
+        this.setUpdatePeriod(60);
         
         this.enableTextures(true);
 
         //Initialize scene objects
 
         this.cubeMap = new MyCubeMap(this);
-
-        this.axis = new CGFaxis(this);        
-        this.sphere = new MySphere(this, 16, 8);
-        this.cilinder = new MyCilinder(this, 16);
+        this.axis = new CGFaxis(this);
         this.vehicle = new MyVehicle(this, 4);
         this.terrain = new MyTerrain(this);
-        this.supply = new MySupply(this);
-
-        this.scaleFactor = 1;
-        this.speedFactor = 1;
+        this.supplies = [];
+        for (var i = 0; i < 5; i++) {
+            this.supplies.push(new MySupply(this));
+        }
+        this.nSuppliesDelivered = 0;
+        this.deltaLaunch = 10000;
 
         this.material = new CGFappearance(this);
         this.material.setAmbient(0.1, 0.1, 0.1, 1);
@@ -64,6 +63,10 @@ class MyScene extends CGFscene {
         this.displayAxis = true;
         this.displayTextures = false;
         this.displayVehicle = true;
+
+        // Vehicle
+        this.scaleFactor = 1;
+        this.speedFactor = 1;
     }
 
     checkKeys() {
@@ -95,6 +98,10 @@ class MyScene extends CGFscene {
     
                 if (this.gui.isKeyPressed("KeyR")) {
                     this.vehicle.reset();
+                    this.nSuppliesDelivered = 0;
+                    for (var i = 0; i < 5; i++) {
+                        this.supplies[i].state = SupplyStates.INACTIVE;
+                    }
                     keysPressed = true;
                 }
     
@@ -102,11 +109,20 @@ class MyScene extends CGFscene {
                     this.vehicle.startAutoPilot();
                     keysPressed = true;
                 }
+
+                if (this.gui.isKeyPressed("KeyL")) {
+                    if (this.nSuppliesDelivered < 5 && this.deltaLaunch >= 1000) {
+                        this.supplies[this.nSuppliesDelivered].drop(this.vehicle.x, this.vehicle.y, this.vehicle.z);
+                        this.nSuppliesDelivered += 1;
+                        this.deltaLaunch = 0;
+                    }
+                    keysPressed = true;
+                }
     
                 if (keysPressed) {
                     console.log("Angle: %d\n", this.vehicle.angle);
                     console.log("Speed: %f\n", this.vehicle.speed);
-                    //this.vehicle.update();
+                    console.log("SuppliesDelivered: %d\n", this.nSuppliesDelivered);
                 }
             } 
     
@@ -125,7 +141,7 @@ class MyScene extends CGFscene {
                 if (keysPressed) {
                     console.log("Angle: %d\n", this.vehicle.angle);
                     console.log("Speed: %d\n", this.vehicle.speed);
-                    //this.vehicle.update();
+                    console.log("SuppliesDelivered: %d\n", this.nSuppliesDelivered);
                 }
             }
     }
@@ -137,7 +153,7 @@ class MyScene extends CGFscene {
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(1, 0.1, 500, vec3.fromValues(20, 10, 20), vec3.fromValues(0, 5, 0));
+        this.camera = new CGFcamera(1, 0.1, 500, vec3.fromValues(20, 15, 20), vec3.fromValues(0, 5, 0));
     }
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
@@ -149,6 +165,10 @@ class MyScene extends CGFscene {
     update(t){
         this.checkKeys();
         this.vehicle.update(t);
+        for (var i = 0; i < 5; i++) {
+            this.supplies[i].update(t);
+        }
+        this.deltaLaunch += 60;
     }
 
     updateTextureChanged() {
@@ -194,7 +214,9 @@ class MyScene extends CGFscene {
             this.popMatrix();
         }
 
-        this.supply.display();
+        for (var i = 0; i < 5; i++) {
+            this.supplies[i].display();
+        }
 
         this.material.apply();
         this.terrain.display();
