@@ -60,30 +60,30 @@ class MyBillboard extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.scene.translate(-2,0.5,-2);
-        this.scene.rotate(Math.PI/4, 0,1,0);
+        this.scene.translate(-2, 0.5,-2);
+        this.scene.rotate(Math.PI/4, 0, 1, 0);
 
         //base board (front)
         this.scene.pushMatrix();
         this.frontBaseTexture.apply();
-        this.scene.translate(0,1,-3);
-        this.scene.scale(2,1,1);
+        this.scene.translate(0, 1,-3);
+        this.scene.scale(2, 1, 1);
         this.baseBoard.display();
         this.scene.popMatrix();
 
         //base board (back)
         this.scene.pushMatrix();
         this.backBaseTexture.apply();
-        this.scene.translate(0,1,-3.001);
-        this.scene.scale(2,1,1);
+        this.scene.translate(0, 1,-3.001);
+        this.scene.scale(2, 1, 1);
         this.baseBoard.display();
         this.scene.popMatrix();
 
         //progress bar
         this.scene.pushMatrix();
         this.scene.setActiveShader(this.progressBarShader);
-        this.scene.translate(0,0.9,-2.99);
-        this.scene.scale(1, 0.5, 0.2);
+        this.scene.translate(0, 0.82,-2.99);
+        this.scene.scale(1.845, 0.4, 0.2);
         this.progressBar.display();
         this.scene.setActiveShader(this.scene.defaultShader);
         this.scene.popMatrix();
@@ -91,7 +91,7 @@ class MyBillboard extends CGFobject {
         //beam1
         this.scene.pushMatrix();
         this.beamTexture.apply();
-        this.scene.translate(-0.95,0,-3.002);
+        this.scene.translate(-0.95, 0,-3.002);
         this.scene.scale(0.10, 2.99, 1);
         this.beam.display();
         this.scene.popMatrix();
@@ -99,7 +99,7 @@ class MyBillboard extends CGFobject {
         //beam2
         this.scene.pushMatrix();
         this.beamTexture.apply();
-        this.scene.translate(0.95,0,-3.002);
+        this.scene.translate(0.95, 0,-3.002);
         this.scene.scale(0.10, 2.99, 1);
         this.beam.display();
         this.scene.popMatrix();
