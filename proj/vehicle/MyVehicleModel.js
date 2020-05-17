@@ -12,6 +12,11 @@ class MyVehicleModel extends CGFobject {
         this.leme = new MyLeme(scene);
         this.motor = new MySphere(scene, 16, 8);
         this.helice = new MyHelice(scene);
+        this.flag = new MyFlag(scene);
+    }
+
+    updateFlag(speed, time){
+        this.flag.update(speed, time);
     }
 
     initMaterials(scene) {
@@ -150,5 +155,7 @@ class MyVehicleModel extends CGFobject {
         this.scene.scale(0.02, 0.02, 0.02);
         this.helice.display();
         this.scene.popMatrix();
+
+        this.flag.display();
     }
 }
