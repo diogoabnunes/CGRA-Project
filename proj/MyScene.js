@@ -32,6 +32,7 @@ class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.vehicle = new MyVehicle(this, 4);
         this.terrain = new MyTerrain(this);
+        this.billboard = new MyBillboard(this);
         this.supplies = [];
         for (var i = 0; i < 5; i++) {
             this.supplies.push(new MySupply(this));
@@ -98,6 +99,7 @@ class MyScene extends CGFscene {
     
                 if (this.gui.isKeyPressed("KeyR")) {
                     this.vehicle.reset();
+                    this.billboard.reset();
                     this.nSuppliesDelivered = 0;
                     for (var i = 0; i < 5; i++) {
                         this.supplies[i].state = SupplyStates.INACTIVE;
@@ -115,6 +117,7 @@ class MyScene extends CGFscene {
                         this.supplies[this.nSuppliesDelivered].drop(this.vehicle.x, this.vehicle.y, this.vehicle.z);
                         this.nSuppliesDelivered += 1;
                         this.deltaLaunch = 0;
+                        this.billboard.update(this.nSuppliesDelivered);
                     }
                     keysPressed = true;
                 }
@@ -135,6 +138,7 @@ class MyScene extends CGFscene {
     
                 if (this.gui.isKeyPressed("KeyR")) {
                     this.vehicle.reset();
+                    this.billboard.reset();
                     keysPressed = true;
                 }
     
@@ -220,7 +224,7 @@ class MyScene extends CGFscene {
 
         this.material.apply();
         this.terrain.display();
-
+        this.billboard.display();
         // ---- END Primitive drawing section
     }
 }

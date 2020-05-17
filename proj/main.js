@@ -13,12 +13,13 @@ serialInclude(['../lib/CGF.js','MyScene.js', 'MyInterface.js',
     'vehicle/MyTriangle.js',
     'vehicle/MyHelice.js',
     'vehicle/MyFlag.js',
-    'vehicle/MyDoubleSidedQuad.js',
+    'MyDoubleSidedQuad.js',
     'MyPlane.js',
     'MyTerrain.js', 
     'supply/MyQuad.js',
     'supply/MyUnitCubeQuad.js',
-    'supply/MySupply.js', 
+    'supply/MySupply.js',
+    'supply/MyBillboard.js', 
 
 main=function()
 {
