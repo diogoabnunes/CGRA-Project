@@ -7,8 +7,7 @@
  class MyFlag extends CGFobject {
      constructor(scene) {
          super(scene);
-         this.flagFront = new MyPlane(this.scene, 50, true);
-         this.flagBack = new MyPlane(this.scene, 50, true);
+         this.flag = new MyPlane(this.scene, 50, true);
          this.haste = new MyDoubleSidedQuad(this.scene);
          
          this.previousTime = 0;
@@ -19,8 +18,6 @@
 
      initTextures() {
         
-        //this.flagTexture = new CGFtexture(this.scene, 'images/vehicle_textures/ad.png');
-/**/ 
         this.flagTexture = new CGFappearance(this.scene);
         this.flagTexture.setAmbient(0.5, 0.5, 0.5, 1);
         this.flagTexture.setDiffuse(0.9, 0.9, 0.9, 1);
@@ -38,13 +35,9 @@
         this.hasteTexture.setTextureWrap('REPEAT', 'REPEAT');
 
 
-        this.shaderFront = new CGFshader(this.scene.gl, "shaders/frontFlag.vert", "shaders/flag.frag");
-        this.shaderFront.setUniformsValues({ uSampler1: 0});
-        this.shaderFront.setUniformsValues({ phase: 0});
-
-        this.shaderBack = new CGFshader(this.scene.gl, "shaders/backFlag.vert", "shaders/flag.frag");
-        this.shaderBack.setUniformsValues({ uSampler1: 0});
-        this.shaderBack.setUniformsValues({ phase: 0});
+        this.shader = new CGFshader(this.scene.gl, "shaders/frontFlag.vert", "shaders/flag.frag");
+        this.shader.setUniformsValues({ uSampler1: 0});
+        this.shader.setUniformsValues({ phase: 0});
  }
 
     update(speed, time) {
@@ -57,29 +50,29 @@
         var deltaX = deltaTime*speed+1.0;
         this.phase += deltaX;
 
-        this.shaderFront.setUniformsValues({phase: this.phase});
-        this.shaderBack.setUniformsValues({phase: this.phase});
+        this.shader.setUniformsValues({phase: this.phase});
+        this.shader.setUniformsValues({phase: this.phase});
     }
 
     display() {
         //flag
-        this.scene.setActiveShader(this.shaderFront);
+        this.scene.setActiveShader(this.shader);
         this.flagTexture.apply();
 
         this.scene.pushMatrix();
-        this.scene.translate(0, 0,-2.5);
+        this.scene.translate(0, 0,-2.45);
         this.scene.scale(0.05, 0.5, 1.5);
         this.scene.rotate(Math.PI/2, 0, 1, 0);
-        this.flagFront.display();
+        this.flag.display();
         this.scene.popMatrix();
         this.scene.setActiveShader(this.scene.defaultShader);
 
-        this.scene.setActiveShader(this.shaderBack);
+        this.scene.setActiveShader(this.shader);
         this.scene.pushMatrix();
-        this.scene.translate(0, 0,-2.5);
+        this.scene.translate(0, 0,-2.45);
         this.scene.scale(0.05, 0.5, 1.5);
-        this.scene.rotate(-Math.PI/2, 0, 1, 0);
-        this.flagBack.display();
+        this.scene.rotate(Math.PI/2, 0, 1, 0);
+        this.flag.display();
         this.scene.popMatrix();
         this.scene.setActiveShader(this.scene.defaultShader);
 
@@ -87,9 +80,10 @@
         //haste cima
         this.scene.pushMatrix();
         this.hasteTexture.apply();
-        this.scene.translate(0, 0.245,-1.6);
-        this.scene.scale(1, 0.01, 0.3);
+        this.scene.translate(0, 0.125,-1.45);
+        this.scene.rotate(Math.PI/7.5, 1, 0, 0);
         this.scene.rotate(-Math.PI/2, 0, 1, 0);
+        this.scene.scale(0.6, 0.01, 0.3);
         this.haste.display();
         this.scene.popMatrix();
 
@@ -97,9 +91,10 @@
         this.scene.setActiveShader(this.scene.defaultShader);
         this.scene.pushMatrix();
         this.hasteTexture.apply();
-        this.scene.translate(0, -0.245,-1.6);
-        this.scene.scale(1, 0.01, 0.3);
+        this.scene.translate(0, -0.125,-1.45);
+        this.scene.rotate(-Math.PI/7.5, 1, 0, 0);
         this.scene.rotate(-Math.PI/2, 0, 1, 0);
+        this.scene.scale(0.6, 0.01, 0.3);
         this.haste.display();
         this.scene.popMatrix();
 
@@ -108,14 +103,10 @@
         this.scene.pushMatrix();
         this.hasteTexture.apply();
         this.scene.translate(0, 0,-1);
-        this.scene.scale(1, 0.01, 0.6);
+        this.scene.scale(1, 0.01, 0.4);
         this.scene.rotate(-Math.PI/2, 0, 1, 0);
         this.haste.display();
         this.scene.popMatrix();
-
-        //haste ligação cima
-
-        //haste ligação baixo
 
     }
 }
