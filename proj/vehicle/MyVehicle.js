@@ -7,7 +7,6 @@ class MyVehicle extends CGFobject {
         super(scene);
         this.scene = scene;
         this.vehicle = new MyVehicleModel(this.scene);
-        //this.flag = new MyFlag(this.scene);
         this.angle = 0;
         this.speed = 0;
         this.x = 0;
@@ -79,7 +78,7 @@ class MyVehicle extends CGFobject {
         this.y = 10;
         this.z = 0;
         this.heliceangle = 0;
-        this.autopilot = false;
+        this.autoPilot = false;
     }
 
     display() {
