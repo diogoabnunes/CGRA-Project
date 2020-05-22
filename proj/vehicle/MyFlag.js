@@ -67,16 +67,6 @@
         this.scene.popMatrix();
         this.scene.setActiveShader(this.scene.defaultShader);
 
-        this.scene.setActiveShader(this.shader);
-        this.scene.pushMatrix();
-        this.scene.translate(0, 0,-2.45);
-        this.scene.scale(0.05, 0.5, 1.5);
-        this.scene.rotate(Math.PI/2, 0, 1, 0);
-        this.flag.display();
-        this.scene.popMatrix();
-        this.scene.setActiveShader(this.scene.defaultShader);
-
-        
         //haste cima
         this.scene.pushMatrix();
         this.hasteTexture.apply();
