@@ -11,10 +11,15 @@ class MySupply extends CGFobject {
         this.box = new MyUnitCubeQuad(this.scene);
         this.earth = new MySphere(this.scene, 16, 8);
         this.supporter = new MyUnitCubeQuad(this.scene);
+        
         this.state = SupplyStates.INACTIVE;
+        
         this.x = 0;
         this.y = 0;
         this.z = 0;
+
+        this.previousTime = 0;
+        this.deltaTime = 0;
     }
     initMaterials() {
         this.wood = new CGFappearance(this.scene);
@@ -73,12 +78,20 @@ class MySupply extends CGFobject {
     }
     update(t) {
         if (this.state == SupplyStates.FALLING) {
-            this.y -= 0.2;
-            if (this.y < 0.5) {
+            if(this.previousTime == 0)
+                this.previousTime = t;
+            
+            this.deltaTime = (t-this.previousTime)/1000;
+            this.previousTime = t;
+
+            this.y -= (9/3 * this.deltaTime);
+
+            if(this.y <= 0.40){
                 this.land();
             }
         }
     }
+
     drop(vehicleX, vehicleY, vehicleZ) {
         this.x = vehicleX;
         this.y = vehicleY - 1;
@@ -86,6 +99,8 @@ class MySupply extends CGFobject {
         this.state = SupplyStates.FALLING;
     }
     land() {
+        this.y = 0.40;
+        this.previousTime = 0;
         this.state = SupplyStates.LANDED;
     }
 }
