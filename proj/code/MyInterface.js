@@ -20,11 +20,15 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'globalScaleFactor', 0.1, 5).name('Scale Factor');
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
 
-        this.gui.add(this.scene, 'selectedTexture', this.scene.textureList).name('Texture').onChange(this.scene.updateTextureChanged.bind(this.scene));
+        this.gui.add(this.scene, 'displayTerrain').name('Display Terrain');
+        this.gui.add(this.scene, 'displayBillboard').name('Display Billboard');
+        
 
         this.gui.add(this.scene, 'displayVehicle').name('Display Vehicle');
-        this.gui.add(this.scene, 'scaleFactor', 0.5, 3.0).name('Scale');
-        this.gui.add(this.scene, 'speedFactor', 0.1, 3.0).name('Speed');
+        this.gui.add(this.scene, 'scaleFactor', 0.5, 3.0).name('Vehicle Scale');
+        this.gui.add(this.scene, 'speedFactor', 0.1, 3.0).name('Vehicle Speed');
+
+        this.gui.add(this.scene, 'selectedTexture', this.scene.textureList).name('CubeMap Texture').onChange(this.scene.updateTextureChanged.bind(this.scene));
 
         this.initKeys();
 
